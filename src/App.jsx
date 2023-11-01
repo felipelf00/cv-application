@@ -1,35 +1,88 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [personalInfo, setPersonalInfo] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    location: "",
+  });
+
+  const handleInputChange = (name, value) => {
+    setPersonalInfo({ ...personalInfo, [name]: value });
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header>
+        <h2>CV builder</h2>
+      </header>
+      <main>
+        <section className="input">
+          <div className="personal-info">
+            <PersonalForm onInputChange={handleInputChange} />
+          </div>
+        </section>
+        <section className="output">
+          <Resume personalInfo={personalInfo} />
+        </section>
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+function PersonalForm({ onInputChange }) {
+  return (
+    <>
+      <label htmlFor="full-name">Full name</label>
+      <input
+        type="text"
+        id="full-name"
+        onChange={(e) => onInputChange("fullName", e.target.value)}
+      ></input>
+      <label htmlFor="full-name">Email</label>
+      <input
+        type="email"
+        id="email"
+        onChange={(e) => onInputChange("email", e.target.value)}
+      ></input>
+      <label htmlFor="phone">Phone</label>
+      <input
+        type="tel"
+        id="phone"
+        onChange={(e) => onInputChange("phone", e.target.value)}
+      ></input>
+      <label htmlFor="location">Location</label>
+      <input
+        type="text"
+        id="location"
+        onChange={(e) => onInputChange("location", e.target.value)}
+      ></input>
+    </>
+  );
+}
+
+function Resume({ personalInfo }) {
+  return (
+    <div className="resume">
+      <h3>{personalInfo.fullName}</h3>
+      <div className="personal-info-row">
+        <span className="email">
+          <span className="material-symbols-outlined">mail</span>
+          {personalInfo.email}
+        </span>
+        <span className="phone">
+          <span className="material-symbols-outlined">call</span>
+          {personalInfo.phone}
+        </span>
+        <span className="location">
+          <span className="material-symbols-outlined">location_on</span>
+          {personalInfo.location}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+export default App;

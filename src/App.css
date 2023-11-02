@@ -5,10 +5,16 @@
   /* text-align: center; */
 }
 
-input {
-  display: block;
+main {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 20px;
 }
 
-label {
-  text-align: left;
+.input {
+  grid-column: 1 / 2;
+}
+
+.output {
+  grid-column: 2 / 3;
 }

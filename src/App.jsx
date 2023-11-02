@@ -1,5 +1,8 @@
 import { useState } from "react";
 import "./App.css";
+import Resume from "./Resume";
+import PersonalForm from "./PersonalForm";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [personalInfo, setPersonalInfo] = useState({
@@ -9,8 +12,36 @@ function App() {
     location: "",
   });
 
-  const handleInputChange = (name, value) => {
-    setPersonalInfo({ ...personalInfo, [name]: value });
+  const [educationInfo, setEducationInfo] = useState([
+    {
+      school: "",
+      degree: "",
+      start: "",
+      end: "",
+      id: uuidv4(),
+    },
+  ]);
+
+  const addEducationItem = () => {
+    setEducationInfo((prevEducationInfo) => [
+      ...prevEducationInfo,
+      { school: "", degree: "", start: "", end: "", id: uuidv4() },
+    ]);
+  };
+
+  const handleInputChange = (section, name, value, id) => {
+    switch (section) {
+      case "personal":
+        setPersonalInfo({ ...personalInfo, [name]: value });
+        break;
+      case "education":
+        setEducationInfo((prevEducationInfo) =>
+          prevEducationInfo.map((item) =>
+            item.id === id ? { ...item, [name]: value } : item
+          )
+        );
+        break;
+    }
   };
 
   return (
@@ -23,64 +54,65 @@ function App() {
           <div className="personal-info">
             <PersonalForm onInputChange={handleInputChange} />
           </div>
+          <div className="education-info">
+            <h3>Educational</h3>
+            {educationInfo.map((item) => (
+              <EducationForm
+                key={item.id}
+                onInputChange={handleInputChange}
+                educationItem={item}
+              />
+            ))}
+            <button onClick={addEducationItem}>Add another</button>
+          </div>
         </section>
         <section className="output">
-          <Resume personalInfo={personalInfo} />
+          <Resume personalInfo={personalInfo} educationInfo={educationInfo} />
         </section>
       </main>
     </>
   );
 }
 
-function PersonalForm({ onInputChange }) {
+function EducationForm({ educationItem, onInputChange }) {
   return (
-    <>
-      <label htmlFor="full-name">Full name</label>
+    <div className="education-form">
+      <label htmlFor={`school-${educationItem.id}`}>Institution</label>
       <input
         type="text"
-        id="full-name"
-        onChange={(e) => onInputChange("fullName", e.target.value)}
-      ></input>
-      <label htmlFor="full-name">Email</label>
-      <input
-        type="email"
-        id="email"
-        onChange={(e) => onInputChange("email", e.target.value)}
-      ></input>
-      <label htmlFor="phone">Phone</label>
-      <input
-        type="tel"
-        id="phone"
-        onChange={(e) => onInputChange("phone", e.target.value)}
-      ></input>
-      <label htmlFor="location">Location</label>
-      <input
-        type="text"
-        id="location"
-        onChange={(e) => onInputChange("location", e.target.value)}
-      ></input>
-    </>
-  );
-}
+        id={`school-${educationItem.id}`}
+        onChange={(e) =>
+          onInputChange("education", "school", e.target.value, educationItem.id)
+        }
+      />
 
-function Resume({ personalInfo }) {
-  return (
-    <div className="resume">
-      <h3>{personalInfo.fullName}</h3>
-      <div className="personal-info-row">
-        <span className="email">
-          <span className="material-symbols-outlined">mail</span>
-          {personalInfo.email}
-        </span>
-        <span className="phone">
-          <span className="material-symbols-outlined">call</span>
-          {personalInfo.phone}
-        </span>
-        <span className="location">
-          <span className="material-symbols-outlined">location_on</span>
-          {personalInfo.location}
-        </span>
-      </div>
+      <label htmlFor={`degree-${educationItem.id}`}>Degree</label>
+      <input
+        type="text"
+        id={`degree-${educationItem.id}`}
+        onChange={(e) =>
+          onInputChange("education", "degree", e.target.value, educationItem.id)
+        }
+      />
+
+      <label htmlFor={`start-${educationItem.id}`}>Start date</label>
+      <input
+        type="text"
+        id={`start-${educationItem.id}`}
+        onChange={(e) =>
+          onInputChange("education", "start", e.target.value, educationItem.id)
+        }
+      />
+
+      <label htmlFor={`end-${educationItem.id}`}>End date</label>
+      <input
+        type="text"
+        id={`end-${educationItem.id}`}
+        onChange={(e) =>
+          onInputChange("education", "end", e.target.value, educationItem.id)
+        }
+      />
+      <br />
     </div>
   );
 }

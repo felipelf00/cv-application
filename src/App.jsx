@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import Resume from "./Resume";
 import PersonalForm from "./PersonalForm";
+import EducationForm from "./EducationForm";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
@@ -27,6 +28,12 @@ function App() {
       ...prevEducationInfo,
       { school: "", degree: "", start: "", end: "", id: uuidv4() },
     ]);
+  };
+
+  const removeEducationItem = (id) => {
+    setEducationInfo((prevEducationInfo) =>
+      prevEducationInfo.filter((item) => item.id !== id)
+    );
   };
 
   const handleInputChange = (section, name, value, id) => {
@@ -61,6 +68,8 @@ function App() {
                 key={item.id}
                 onInputChange={handleInputChange}
                 educationItem={item}
+                removeItem={removeEducationItem}
+                index={educationInfo.indexOf(item)}
               />
             ))}
             <button onClick={addEducationItem}>Add another</button>
@@ -71,49 +80,6 @@ function App() {
         </section>
       </main>
     </>
-  );
-}
-
-function EducationForm({ educationItem, onInputChange }) {
-  return (
-    <div className="education-form">
-      <label htmlFor={`school-${educationItem.id}`}>Institution</label>
-      <input
-        type="text"
-        id={`school-${educationItem.id}`}
-        onChange={(e) =>
-          onInputChange("education", "school", e.target.value, educationItem.id)
-        }
-      />
-
-      <label htmlFor={`degree-${educationItem.id}`}>Degree</label>
-      <input
-        type="text"
-        id={`degree-${educationItem.id}`}
-        onChange={(e) =>
-          onInputChange("education", "degree", e.target.value, educationItem.id)
-        }
-      />
-
-      <label htmlFor={`start-${educationItem.id}`}>Start date</label>
-      <input
-        type="text"
-        id={`start-${educationItem.id}`}
-        onChange={(e) =>
-          onInputChange("education", "start", e.target.value, educationItem.id)
-        }
-      />
-
-      <label htmlFor={`end-${educationItem.id}`}>End date</label>
-      <input
-        type="text"
-        id={`end-${educationItem.id}`}
-        onChange={(e) =>
-          onInputChange("education", "end", e.target.value, educationItem.id)
-        }
-      />
-      <br />
-    </div>
   );
 }
 

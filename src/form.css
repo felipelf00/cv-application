@@ -1,5 +1,7 @@
-input {
+input,
+textarea {
   display: block;
+  font-family: inherit;
 }
 
 label {

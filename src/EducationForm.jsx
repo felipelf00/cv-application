@@ -12,7 +12,8 @@ export default function EducationForm({
         <h4>Item #{index + 1}</h4>
         <button
           className="material-symbols-outlined"
-          onClick={() => removeItem(educationItem.id)}
+          //   onClick={() => removeItem(educationItem.id)}
+          onClick={() => removeItem("education", educationItem.id)}
         >
           delete
         </button>

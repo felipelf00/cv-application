@@ -3,6 +3,7 @@ import "./App.css";
 import Resume from "./Resume";
 import PersonalForm from "./PersonalForm";
 import EducationForm from "./EducationForm";
+import ProfessionalForm from "./ProfessionalForm";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
@@ -23,17 +24,66 @@ function App() {
     },
   ]);
 
-  const addEducationItem = () => {
-    setEducationInfo((prevEducationInfo) => [
-      ...prevEducationInfo,
-      { school: "", degree: "", start: "", end: "", id: uuidv4() },
-    ]);
+  const [professionalInfo, setProfessionalInfo] = useState([
+    {
+      company: "",
+      position: "",
+      description: "",
+      start: "",
+      end: "",
+      id: uuidv4(),
+    },
+  ]);
+
+  // const addEducationItem = () => {
+  //   setEducationInfo((prevEducationInfo) => [
+  //     ...prevEducationInfo,
+  //     { school: "", degree: "", start: "", end: "", id: uuidv4() },
+  //   ]);
+  // };
+
+  const addItem = (section) => {
+    switch (section) {
+      case "education":
+        setEducationInfo((prevEducationInfo) => [
+          ...prevEducationInfo,
+          { school: "", degree: "", start: "", end: "", id: uuidv4() },
+        ]);
+        break;
+      case "professional":
+        setProfessionalInfo((prevProfessionalInfo) => [
+          ...prevProfessionalInfo,
+          {
+            company: "",
+            position: "",
+            description: "",
+            start: "",
+            end: "",
+            id: uuidv4(),
+          },
+        ]);
+    }
   };
 
-  const removeEducationItem = (id) => {
-    setEducationInfo((prevEducationInfo) =>
-      prevEducationInfo.filter((item) => item.id !== id)
-    );
+  // const removeEducationItem = (id) => {
+  //   setEducationInfo((prevEducationInfo) =>
+  //     prevEducationInfo.filter((item) => item.id !== id)
+  //   );
+  // };
+
+  const removeItem = (section, id) => {
+    switch (section) {
+      case "education":
+        setEducationInfo((prevEducationInfo) =>
+          prevEducationInfo.filter((item) => item.id !== id)
+        );
+        break;
+      case "professional":
+        setProfessionalInfo((prevProfessionalInfo) =>
+          prevProfessionalInfo.filter((item) => item.id !== id)
+        );
+        break;
+    }
   };
 
   const handleInputChange = (section, name, value, id) => {
@@ -44,6 +94,13 @@ function App() {
       case "education":
         setEducationInfo((prevEducationInfo) =>
           prevEducationInfo.map((item) =>
+            item.id === id ? { ...item, [name]: value } : item
+          )
+        );
+        break;
+      case "professional":
+        setProfessionalInfo((prevProfessionalInfo) =>
+          prevProfessionalInfo.map((item) =>
             item.id === id ? { ...item, [name]: value } : item
           )
         );
@@ -68,15 +125,32 @@ function App() {
                 key={item.id}
                 onInputChange={handleInputChange}
                 educationItem={item}
-                removeItem={removeEducationItem}
+                removeItem={removeItem}
                 index={educationInfo.indexOf(item)}
               />
             ))}
-            <button onClick={addEducationItem}>Add another</button>
+            <button onClick={() => addItem("education")}>Add another</button>
+          </div>
+          <div className="professional-info">
+            <h3>Professional</h3>
+            {professionalInfo.map((item) => (
+              <ProfessionalForm
+                key={item.id}
+                onInputChange={handleInputChange}
+                professionalItem={item}
+                removeItem={removeItem}
+                index={professionalInfo.indexOf(item)}
+              />
+            ))}
+            <button onClick={() => addItem("professional")}>Add another</button>
           </div>
         </section>
         <section className="output">
-          <Resume personalInfo={personalInfo} educationInfo={educationInfo} />
+          <Resume
+            personalInfo={personalInfo}
+            educationInfo={educationInfo}
+            professionalInfo={professionalInfo}
+          />
         </section>
       </main>
     </>

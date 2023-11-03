@@ -1,6 +1,10 @@
 import "./Resume.css";
 
-export default function Resume({ personalInfo, educationInfo }) {
+export default function Resume({
+  personalInfo,
+  educationInfo,
+  professionalInfo,
+}) {
   return (
     <div className="resume">
       <header>
@@ -26,10 +30,23 @@ export default function Resume({ personalInfo, educationInfo }) {
         {educationInfo.map((item) => (
           <div key={item.id} className="education">
             <p>
-              <b>{item.school} -</b> {item.degree} <b>Start:</b>
-              {item.start} <b>End:</b>
+              <b>{item.school} -</b> {item.degree} <b>Start: </b>
+              {item.start} <b>End: </b>
               {item.end}
             </p>
+          </div>
+        ))}
+      </section>
+      <section>
+        <h4>Professional experience</h4>
+        {professionalInfo.map((item) => (
+          <div key={item.id} className="professional">
+            <p>
+              <b>{item.company} - </b> {item.position} <b>Start: </b>
+              {item.start} <b>End: </b>
+              {item.end}
+            </p>
+            <p>{item.description}</p>
           </div>
         ))}
       </section>

@@ -35,12 +35,23 @@ function App() {
     },
   ]);
 
-  // const addEducationItem = () => {
-  //   setEducationInfo((prevEducationInfo) => [
-  //     ...prevEducationInfo,
-  //     { school: "", degree: "", start: "", end: "", id: uuidv4() },
-  //   ]);
-  // };
+  const [isOpenPersonal, setIsOpenPersonal] = useState(true);
+  const [isOpenEducation, setIsOpenEducation] = useState(false);
+  const [isOpenProfessional, setIsOpenProfessional] = useState(false);
+
+  const toggleCollapse = (section) => {
+    switch (section) {
+      case "personal":
+        setIsOpenPersonal(!isOpenPersonal);
+        break;
+      case "education":
+        setIsOpenEducation(!isOpenEducation);
+        break;
+      case "professional":
+        setIsOpenProfessional(!isOpenProfessional);
+        break;
+    }
+  };
 
   const addItem = (section) => {
     switch (section) {
@@ -64,12 +75,6 @@ function App() {
         ]);
     }
   };
-
-  // const removeEducationItem = (id) => {
-  //   setEducationInfo((prevEducationInfo) =>
-  //     prevEducationInfo.filter((item) => item.id !== id)
-  //   );
-  // };
 
   const removeItem = (section, id) => {
     switch (section) {
@@ -115,34 +120,71 @@ function App() {
       </header>
       <main>
         <section className="input">
-          <div className="personal-info">
-            <PersonalForm onInputChange={handleInputChange} />
+          <div className="personal-info form-card">
+            <div className="top-row">
+              <div className="item-wrapper">
+                <h3>Personal information</h3>
+                <button
+                  className="expander"
+                  onClick={() => toggleCollapse("personal")}
+                >
+                  {isOpenPersonal ? "-" : "+"}
+                </button>
+              </div>
+            </div>
+            {isOpenPersonal && (
+              <PersonalForm onInputChange={handleInputChange} />
+            )}
           </div>
-          <div className="education-info">
-            <h3>Educational</h3>
-            {educationInfo.map((item) => (
-              <EducationForm
-                key={item.id}
-                onInputChange={handleInputChange}
-                educationItem={item}
-                removeItem={removeItem}
-                index={educationInfo.indexOf(item)}
-              />
-            ))}
-            <button onClick={() => addItem("education")}>Add another</button>
+          <div className="education-info form-card">
+            <div className="item-wrapper">
+              <h3>Educational</h3>
+              <button
+                className="expander"
+                onClick={() => toggleCollapse("education")}
+              >
+                {isOpenEducation ? "-" : "+"}
+              </button>
+            </div>
+            {isOpenEducation &&
+              educationInfo.map((item) => (
+                <EducationForm
+                  key={item.id}
+                  onInputChange={handleInputChange}
+                  educationItem={item}
+                  removeItem={removeItem}
+                  index={educationInfo.indexOf(item)}
+                />
+              ))}
+            {isOpenEducation && (
+              <button onClick={() => addItem("education")}>Add another</button>
+            )}
           </div>
-          <div className="professional-info">
-            <h3>Professional</h3>
-            {professionalInfo.map((item) => (
-              <ProfessionalForm
-                key={item.id}
-                onInputChange={handleInputChange}
-                professionalItem={item}
-                removeItem={removeItem}
-                index={professionalInfo.indexOf(item)}
-              />
-            ))}
-            <button onClick={() => addItem("professional")}>Add another</button>
+          <div className="professional-info form-card">
+            <div className="item-wrapper">
+              <h3>Professional</h3>
+              <button
+                className="expander"
+                onClick={() => toggleCollapse("professional")}
+              >
+                {isOpenProfessional ? "-" : "+"}
+              </button>
+            </div>
+            {isOpenProfessional &&
+              professionalInfo.map((item) => (
+                <ProfessionalForm
+                  key={item.id}
+                  onInputChange={handleInputChange}
+                  professionalItem={item}
+                  removeItem={removeItem}
+                  index={professionalInfo.indexOf(item)}
+                />
+              ))}
+            {isOpenProfessional && (
+              <button onClick={() => addItem("professional")}>
+                Add another
+              </button>
+            )}
           </div>
         </section>
         <section className="output">

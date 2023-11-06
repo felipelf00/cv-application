@@ -3,7 +3,6 @@ import "./form.css";
 export default function PersonalForm({ onInputChange }) {
   return (
     <>
-      <h3>Personal information</h3>
       <label htmlFor="full-name">Full name</label>
       <input
         type="text"

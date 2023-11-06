@@ -2,6 +2,7 @@ input,
 textarea {
   display: block;
   font-family: inherit;
+  width: 206px;
 }
 
 label {
@@ -14,8 +15,11 @@ label {
   align-items: center;
 }
 
-.item-wrapper button {
-  padding: 4px 8px;
-  font-size: 20px;
-  height: 40px;
+.form-card {
+  /* background-color: #f0f0c9;
+  background-color: #f0f0c4; */
+  box-shadow: 0 0 10px rgba(65, 65, 65, 0.151);
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 10px;
 }

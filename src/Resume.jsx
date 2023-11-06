@@ -24,27 +24,38 @@ export default function Resume({
           </span>
         </div>
       </header>
-      <br />
+      <hr />
       <section>
         <h4>Education</h4>
         {educationInfo.map((item) => (
           <div key={item.id} className="education">
             <p>
-              <b>{item.school} -</b> {item.degree} <b>Start: </b>
-              {item.start} <b>End: </b>
-              {item.end}
+              <span className="left">
+                <b>{item.school} -</b> {item.degree}{" "}
+              </span>
+              <span className="right">
+                <b>Start: </b>
+                {item.start} <b>End: </b>
+                {item.end}
+              </span>
             </p>
           </div>
         ))}
       </section>
+      <hr />
       <section>
         <h4>Professional experience</h4>
         {professionalInfo.map((item) => (
           <div key={item.id} className="professional">
             <p>
-              <b>{item.company} - </b> {item.position} <b>Start: </b>
-              {item.start} <b>End: </b>
-              {item.end}
+              <span className="left">
+                <b>{item.company} - </b> {item.position}{" "}
+              </span>
+              <span className="right">
+                <b>Start: </b>
+                {item.start} <b>End: </b>
+                {item.end}
+              </span>
             </p>
             <p>{item.description}</p>
           </div>

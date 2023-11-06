@@ -8,3 +8,22 @@
 header {
   text-align: center;
 }
+
+.personal-info-row {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  align-items: center;
+}
+
+.personal-info-row span {
+  display: flex;
+  align-items: center;
+  padding-right: 6px;
+}
+
+.education p,
+.professional p {
+  display: flex;
+  justify-content: space-between;
+}
